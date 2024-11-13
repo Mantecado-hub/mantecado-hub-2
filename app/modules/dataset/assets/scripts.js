@@ -130,11 +130,7 @@ var currentId = 0;
 
         window.onload = function () {
 
-            if (use_fakenodo === false) {
-                test_zenodo_connection();
-            } else {
-                document.getElementById("use_fakenodo").style.display = "block";
-            }
+            test_zenodo_connection();
 
             document.getElementById('upload_button').addEventListener('click', function () {
 
