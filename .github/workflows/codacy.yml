@@ -67,4 +67,4 @@ jobs:
         MARIADB_TEST_DATABASE: uvlhubdb_test
         MARIADB_USER: uvlhub_user
         MARIADB_PASSWORD: uvlhub_password
-        CODACY_PROJECT_TOKEN: ${{ secrets.4c4b719eb6bf475994fbcd07cf4e1a21 }}
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
