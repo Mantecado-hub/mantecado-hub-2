@@ -1,0 +1,43 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Find Version in Commit Message
+        id: find_version
+        run: |
+          VERSION_TAG=$(git log -2 --pretty=format:"%s" | grep -E "^(Feat|Fix): v[0-9]+\.[0-9]+\.[0-9]+$" | head -n 1 | grep -o "v[0-9]\+\.[0-9]\+\.[0-9]\+")
+          if [ -z "$VERSION_TAG" ]; then
+            echo "No valid version tag found in the last 2 commits. Exiting."
+            exit 1
+          fi
+          echo "VERSION=$VERSION_TAG" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@43378945af632f1ff82237ffa7e38723b5fd76ab
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
