@@ -16,7 +16,7 @@ jobs:
 
       - name: Generate Changelog
         id: changelog
-        uses: einaregilsson/auto-changelog-action@v2
+        uses: einaregilsson/auto-changelog-action@2f3b2e4d4c11bcd289a1e76bf6a6cf69d98cd417
         with:
           commit-limit: 20
 
